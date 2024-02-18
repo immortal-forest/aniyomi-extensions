@@ -1,0 +1,14 @@
+ext {
+    extName = 'Anify'
+    extClass = '.Anify'
+    extVersionCode = 1
+}
+
+apply from: "$rootDir/common.gradle"
+
+
+dependencies {
+    implementation(project(":lib:playlist-utils"))
+    implementation(project(":lib:filemoon-extractor"))
+    implementation(project(":lib:dood-extractor"))
+}
