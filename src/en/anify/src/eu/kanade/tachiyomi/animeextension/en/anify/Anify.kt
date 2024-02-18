@@ -2,7 +2,6 @@ package eu.kanade.tachiyomi.animeextension.en.anify
 
 import android.app.Application
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceScreen
 import eu.kanade.tachiyomi.animeextension.en.anify.extractors.VidstackExtractor
@@ -212,13 +211,6 @@ class Anify : ConfigurableAnimeSource, ParsedAnimeHttpSource() {
             servers.add(server to "$baseUrl$url")
         }
         return servers
-    }
-
-    private fun extractIframeSrc(scriptData: String): String {
-        val iframeRegex = "<iframe[^>]*>.*?</iframe>".toRegex()
-        val iframe = iframeRegex.find(scriptData)!!.value
-        val srcRegex = "(?<=src=\").*?(?=[\\*\"])".toRegex()
-        return srcRegex.find(iframe)!!.value
     }
 
     private fun parseStatus(status: String): Int {
