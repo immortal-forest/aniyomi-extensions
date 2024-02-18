@@ -138,7 +138,14 @@ class Anify : ConfigurableAnimeSource, ParsedAnimeHttpSource() {
 
     override fun episodeListParse(response: Response): List<SEpisode> {
         val document = response.asJsoup()
-        return document.select(episodeListSelector()).map(::episodeFromElement).reversed()
+        val status = document.select("div.component-animeinfo > div.card-body > div.row")
+            .select("span.badge-status").first()!!.ownText().trim()
+
+        return if (parseStatus(status) == SAnime.ONGOING) {
+            document.select(episodeListSelector()).map(::episodeFromElement)
+        } else {
+            document.select(episodeListSelector()).map(::episodeFromElement).reversed()
+        }
     }
 
     override fun episodeFromElement(element: Element): SEpisode {
