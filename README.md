@@ -1,5 +1,5 @@
 | Build |
 |-------|
-| ![CI](https://github.com/immortal-forest/aniyomi-extensions/workflows/CI/badge.svg?event=push)
+| ![CI](https://github.com/immortal-forest/aniyomi-extensions/actions/workflows/build_push.yml/badge.svg) |
 
 Nothing to see here....
