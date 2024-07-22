@@ -8,16 +8,16 @@ import javax.crypto.spec.SecretKeySpec
 class AniwaveUtils {
 
     fun vrfEncrypt(input: String): String {
-        val rc4Key = SecretKeySpec("tGn6kIpVXBEUmqjD".toByteArray(), "RC4")
+        val rc4Key = SecretKeySpec("p01EDKu734HJP1Tm".toByteArray(), "RC4")
         val cipher = Cipher.getInstance("RC4")
         cipher.init(Cipher.DECRYPT_MODE, rc4Key, cipher.parameters)
 
         var vrf = cipher.doFinal(input.toByteArray())
         vrf = Base64.encode(vrf, Base64.URL_SAFE or Base64.NO_WRAP)
-        vrf = Base64.encode(vrf, Base64.DEFAULT or Base64.NO_WRAP)
-        vrf = vrfShift(vrf)
-        vrf = vrf.reversed().toByteArray()
-        vrf = Base64.encode(vrf, Base64.URL_SAFE or Base64.NO_WRAP)
+//        vrf = Base64.encode(vrf, Base64.DEFAULT or Base64.NO_WRAP)
+//        vrf = vrfShift(vrf)
+//        vrf = vrf.reversed().toByteArray()
+//        vrf = Base64.encode(vrf, Base64.URL_SAFE or Base64.NO_WRAP)
         // vrf = rot13(vrf)
         val stringVrf = vrf.toString(Charsets.UTF_8)
         return "vrf=${java.net.URLEncoder.encode(stringVrf, "utf-8")}"
@@ -27,7 +27,7 @@ class AniwaveUtils {
         var vrf = input.toByteArray()
         vrf = Base64.decode(vrf, Base64.URL_SAFE)
 
-        val rc4Key = SecretKeySpec("LUyDrL4qIxtIxOGs".toByteArray(), "RC4")
+        val rc4Key = SecretKeySpec("ctpAbOz5u7S6OMkx".toByteArray(), "RC4")
         val cipher = Cipher.getInstance("RC4")
         cipher.init(Cipher.DECRYPT_MODE, rc4Key, cipher.parameters)
         vrf = cipher.doFinal(vrf)
