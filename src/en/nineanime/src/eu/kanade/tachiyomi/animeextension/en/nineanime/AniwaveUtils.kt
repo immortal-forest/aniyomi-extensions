@@ -8,7 +8,7 @@ import javax.crypto.spec.SecretKeySpec
 class AniwaveUtils {
 
     fun vrfEncrypt(input: String): String {
-        val rc4Key = SecretKeySpec("p01EDKu734HJP1Tm".toByteArray(), "RC4")
+        val rc4Key = SecretKeySpec("T78s2WjTc7hSIZZR".toByteArray(), "RC4")
         val cipher = Cipher.getInstance("RC4")
         cipher.init(Cipher.DECRYPT_MODE, rc4Key, cipher.parameters)
 
