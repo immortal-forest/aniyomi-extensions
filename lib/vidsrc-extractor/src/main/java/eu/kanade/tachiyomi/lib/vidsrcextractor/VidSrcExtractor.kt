@@ -29,13 +29,13 @@ class VidsrcExtractor(private val client: OkHttpClient, private val headers: Hea
 
     private val keys by lazy {
         noCacheClient.newCall(
-            GET("https://raw.githubusercontent.com/KillerDogeEmpire/vidplay-keys/keys/keys.json", cache = cacheControl),
-        ).execute().parseAs<List<String>>()
+            GET("https://rowdy-avocado.github.io/multi-keys", cache = cacheControl),
+        ).execute().parseAs<Keys>()
     }
 
     fun videosFromUrl(embedLink: String, hosterName: String, type: String = "", subtitleList: List<Track> = emptyList()): List<Video> {
         val host = embedLink.toHttpUrl().host
-        val apiUrl = getApiUrl(embedLink, keys)
+        val apiUrl = getApiUrl(embedLink, keys.vidplay)
 
         val apiHeaders = headers.newBuilder().apply {
             add("Accept", "application/json, text/javascript, */*; q=0.01")
@@ -52,9 +52,9 @@ class VidsrcExtractor(private val client: OkHttpClient, private val headers: Hea
             response.parseAs<MediaResponseBody>()
         }.getOrElse { // Keys are out of date
             val newKeys = noCacheClient.newCall(
-                GET("https://raw.githubusercontent.com/KillerDogeEmpire/vidplay-keys/keys/keys.json", cache = cacheControl),
-            ).execute().parseAs<List<String>>()
-            val newApiUrL = getApiUrl(embedLink, newKeys)
+                GET("https://rowdy-avocado.github.io/multi-keys/", cache = cacheControl),
+            ).execute().parseAs<Keys>()
+            val newApiUrL = getApiUrl(embedLink, newKeys.vidplay)
             client.newCall(
                 GET(newApiUrL, apiHeaders),
             ).execute().parseAs()
@@ -148,6 +148,13 @@ class VidsrcExtractor(private val client: OkHttpClient, private val headers: Hea
         }
     }
 }
+
+
+@Serializable
+data class Keys(
+    val vidplay: List<String>
+)
+
 
 @Serializable
 data class MediaResponseBody(
