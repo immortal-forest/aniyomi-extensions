@@ -108,7 +108,7 @@ class Aniwave : ConfigurableAnimeSource, ParsedAnimeHttpSource() {
         if (filters.language.isNotBlank()) url += filters.language
         if (filters.rating.isNotBlank()) url += filters.rating
 
-        return GET("$url&sort=${filters.sort}&page=$page&$vrf", refererHeaders)
+        return GET("$url&sort=${filters.sort}&page=$page&vrf=$vrf", refererHeaders)
     }
 
     override fun searchAnimeSelector(): String = popularAnimeSelector()
@@ -162,7 +162,7 @@ class Aniwave : ConfigurableAnimeSource, ParsedAnimeHttpSource() {
             add("X-Requested-With", "XMLHttpRequest")
         }.build()
 
-        return GET("$baseUrl/ajax/episode/list/$id?$vrf#${anime.url}", listHeaders)
+        return GET("$baseUrl/ajax/episode/list/$id?vrf=$vrf#${anime.url}", listHeaders)
     }
 
     override fun episodeListSelector() = "div.episodes ul > li > a"
@@ -211,7 +211,7 @@ class Aniwave : ConfigurableAnimeSource, ParsedAnimeHttpSource() {
     override fun videoListRequest(episode: SEpisode): Request {
         val ids = episode.url.substringBefore("&")
         val vrf = utils.vrfEncrypt(ids)
-        val url = "/ajax/server/list/$ids?$vrf"
+        val url = "/ajax/server/list/$ids?vrf=$vrf"
         val epurl = episode.url.substringAfter("epurl=")
 
         val listHeaders = headers.newBuilder().apply {
@@ -272,7 +272,7 @@ class Aniwave : ConfigurableAnimeSource, ParsedAnimeHttpSource() {
         }.build()
 
         val response = client.newCall(
-            GET("$baseUrl/ajax/server/${server.serverId}?$vrf", listHeaders),
+            GET("$baseUrl/ajax/server/${server.serverId}?vrf=$vrf", listHeaders),
         ).execute()
         if (response.code != 200) return emptyList()
 
